@@ -42,7 +42,7 @@ class DoxyCheck(cog.task.Task):
                     'code': str(code)}
 
         # Get doxy log
-        rat_dir = os.join(work_dir,sha) if work_dir else sha
+        rat_dir = os.path.join(work_dir,sha) if work_dir else sha
         doxy_log = self.get_doxy_log(rat_dir)
 
         # pass if no warnings, print log to HTML
