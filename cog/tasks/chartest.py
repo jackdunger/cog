@@ -123,13 +123,14 @@ class CharCheck(cog.task.Task):
         # Get the new lines. Lines beginning "---" in header
         changedLines = [x for x in diff.splitlines() if len(x)!= 0 and x[0] == "+" 
                         and x[:3] != "+++"]
-        # Search lines for trailing whitespace and bad ASCII chars
+        # Search code lines for trailing whitespace and bad ASCII chars
         for line in changedLines:
-            trailingWhiteSpace = len(line) - len(line.rstrip())  
-            if trailingWhiteSpace:
+            trailingWhiteSpace = len(line) - len(line.rstrip())
+            isComment = "//" in line
+            if trailingWhiteSpace and not isComment:
                 errors.append("%s trailing whitespace chars in line ' %s '" %(trailingWhiteSpace,line))
             for y in CRITICAL_CHARS:
-                count = line.count(y)    
+                count = line.count(y)
                 if count:
                     error = "%s copies of char %s in line: ' %s'"  %(count,hex(ord(y)),line)
                     if ord(y) == 0x09:

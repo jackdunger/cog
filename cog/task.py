@@ -203,11 +203,20 @@ def get_diff(file,sha,repo_dir):
     "..." gives only changes new in sha relative to local
     :param sha: name of remote ref to test
     :param file: path to modified file
+    :param repo_dir: path to repository directory
     :returns: git diff as a string
     '''
-    cmd = "git diff -U0 ...%s %s" %(sha,file)
-    return system_output(cmd,repo_dir)
-
+    # check file exists in the repo already
+    if os.path.isfile(file):
+        cmd = "git diff -U0 ...%s %s" %(sha,file)
+        return system_output(cmd,repo_dir)
+    # otherwise need to add the file 
+    else:
+        cmd = "git checkout %s %s" %(sha,file)
+        system(cmd,repo_dir)
+        cmd = "git diff -U0 ...%s %s" %(sha,file)
+        return system_output(cmd,repo_dir)
+    
 def scons_build(work_dir, options=None, configure=True,
         configure_options=None):
     '''Compile with scons.
