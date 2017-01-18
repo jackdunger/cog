@@ -24,7 +24,7 @@ def print_HTML(errors, out_file):
         <h2 style="color: %s"> %s </h2>
         <table border>
     ''' %('green' if overall_pass else 'red', 
-              'All Files Passed' if overall_pass else "%i Files Failed" %nfails)
+          'All Files Passed' if overall_pass else "%i Files Failed" %nfails)
 
     for filename, error_list in errors.items():
         passed = (error_list == [])
@@ -35,7 +35,7 @@ def print_HTML(errors, out_file):
             <td>  %s </td>
             </tr>
         ''' %(filename, 'green' if passed else 'red', 'PASS' if passed else "FAIL",
-                 "<br /> ".join(error_list) if not passed else "")
+              "<br /> ".join(error_list) if not passed else "")
     web_page+= '''
            </table>
         </body>
@@ -159,7 +159,7 @@ class CharCheck(cog.task.Task):
             return {'success': False, 'reason': 'git clone failed',
                     'code': str(code)}
 
-        sucsess, errors    = check_changed_files(sha, repo_dir) 
+        succsess, errors    = check_changed_files(sha, repo_dir) 
 
         # write web page
         web_page = print_HTML(errors, "char_test.html")
